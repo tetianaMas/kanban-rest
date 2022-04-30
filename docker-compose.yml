@@ -1,14 +1,22 @@
-version: "3.8"
+version: '3.8'
 
 services:
   web:
-    image: itdanila/kanban_rest
+    build: .
     depends_on:
       - db
     container_name: web
     env_file: .env
     ports:
       - ${PORT}:${PORT}
+    # restart: always
+    volumes:
+      - app:/home/app
+      # - ./backend/migrations:/home/app/migrations
+      # - ./backend/src:/home/app/src
+      # - ./backend/logs:/home/app/logs
+      # - ./backend/uploads:/home/app/uploads
+      # - ./backend/typings:/home/app/typings
     networks:
       - app-network
     command: sh -c "npm run typeorm:migration && npm run start:prod"
